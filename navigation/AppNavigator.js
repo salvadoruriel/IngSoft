@@ -11,6 +11,7 @@ import MainNavigator from './MainNavigator';
 import Colors from '../constants/Colors';
 
 const defaultStackNavOptions = {
+	headerVisible: false,
 	headerStyle: {
 		backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
 	},
@@ -28,13 +29,14 @@ const AppNavigator = createStackNavigator({
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {
-			headerTitle: 'Ingreso', //instead of placing in .js
+			headerTitle: 'Admiss', //instead of placing in .js
 		}
 	},
 	Ingreso: MainNavigator
 }, {
+	headerMode: 'none',
 	//initialRouteName: 'Ingreso', //changes default screen
-	defaultNavigationOptions: defaultStackNavOptions
+	//defaultNavigationOptions: defaultStackNavOptions
 });
 
 //stacknavigator works differently and needs an app wrapper

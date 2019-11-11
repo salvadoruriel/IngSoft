@@ -3,55 +3,65 @@ import {
 	Text,
 	View,
 	Image,
-	Button,
 	Dimensions,
 	StyleSheet,
 	TextInput,
-	ScrollView,
-	Alert
+	Alert,
+	KeyboardAvoidingView
 } from 'react-native';
 
 import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const LoginScreen = props => {
 	const [userInput, setUserInput] = useState('');
 	const [passInput, setPassInput] = useState('');
 
+	const checkUser = () => {
+		if (userInput != 'Sa' || passInput != '1')
+			return Alert.alert('Usuario y/o contraseñas incorrectas');
+		else
+			return props.navigation.replace('Ingreso');
+	}
+
 	return (
 		<ScrollView>
-			<View style={styles.screen}>
-				<View style={styles.imageContainer}>
-					<Image
-						source={require('../assets/logo.png')}
-						fadeDuration={1000}
-						style={styles.image}
-						resizeMode="center"
-					/>
+			<KeyboardAvoidingView behavior="position" keyboardVerticalOffset={40}>
+				<View style={styles.screen}>
+					<View style={styles.imageContainer}>
+						<Image
+							source={require('../assets/logo.png')}
+							fadeDuration={1000}
+							style={styles.image}
+							resizeMode="center"
+						/>
+					</View>
+					<View style={styles.inputContainer}>
+						<Text style={{ fontSize: 20 }}>Paleteria la Michoacana</Text>
+						<TextInput
+							style={styles.input}
+							autoCorrect={false}
+							onChangeText={setUserInput}
+							value={userInput}
+							placeholder='Usuario'
+						/>
+						<TextInput
+							style={styles.input}
+							autoCorrect={false}
+							onChangeText={setPassInput}
+							value={passInput}
+							placeholder='Contraseña'
+							secureTextEntry={true}
+						/>
+						<BotonDefault
+							onPress={checkUser}
+						>
+							<Text>Login</Text>
+						</BotonDefault>
+					</View>
 				</View>
-				<View style={styles.buttonContainer}>
-					<Text>Paleteria la Michoacana</Text>
-					<TextInput
-						style={styles.input}
-						autoCorrect={false}
-						onChangeText={setUserInput}
-						value={userInput}
-						placeholder='Usuario'
-					/>
-					<TextInput
-						style={styles.input}
-						autoCorrect={false}
-						onChangeText={setPassInput}
-						value={passInput}
-						placeholder='Contraseña'
-					/>
-					<BotonDefault
-						onPress={() => Alert.alert('Usuario y/o contraseñas incorrectas')}
-					>
-						<Text>Hello</Text>
-					</BotonDefault>
-				</View>
-			</View>
+			</KeyboardAvoidingView>
 		</ScrollView>
 	);
 };
@@ -74,14 +84,14 @@ const styles = StyleSheet.create({
 		borderWidth: 3, //to correctly pinpoint a circle
 		borderColor: 'white', //across different devices
 		overflow: 'hidden',
-		marginVertical: Dimensions.get('window').height / 20,
+		marginVertical: Dimensions.get('window').height / 30,
 		alignItems: 'center'
 	},
-	buttonContainer: {
+	inputContainer: {
 		flexDirection: 'column',
 		alignItems: 'center',
 		justifyContent: 'center',
-		marginVertical: 15,
+		marginVertical: Dimensions.get('window').height / 60,
 		width: '80%'
 	},
 	input: {
@@ -90,8 +100,8 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		borderColor: Colors.secondaryColor,
 		borderWidth: 1,
-		color: Colors.scLight,
-		marginVertical: 10
+		color: 'black',
+		marginVertical: 15
 	}
 });
 
