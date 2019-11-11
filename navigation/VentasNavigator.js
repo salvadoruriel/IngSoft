@@ -1,6 +1,5 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
 import GenerarVentaScreen from '../screens/GenerarVentaScreen';
@@ -24,7 +23,7 @@ const defaultStackNavOptions = {
 
 const VentasNavigator = createStackNavigator({
 	s1Generar: {
-		screen: GenerarVentaScreen
+		screen: GenerarVentaScreen,
 	},
 	s2Carro: {
 		screen: CarritoScreen

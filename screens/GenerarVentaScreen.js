@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
 	Text,
 	View,
-	Image,
 	Button,
+	Image,
+	Platform,
+	TouchableOpacity,
+	TouchableNativeFeedback, //ripple effect is only on android 21+
 	Dimensions,
 	StyleSheet,
 	TextInput,
-	FlatList
+	FlatList,
+	Alert,
+	Keyboard
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -17,7 +22,12 @@ import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
 import MyHeaderButton from '../components/MyHeaderButton';
 
-const renderProductItem = itemData => {
+let TouchableComp = TouchableOpacity;
+if (Platform.Version >= 21) {
+	TouchableComp = TouchableNativeFeedback;
+}
+
+const renderProductItem = (setSeleccion, itemData) => {
 	//console.log(itemData);
 	let producto;
 	switch (itemData.item.id.charAt(0)) {
@@ -36,19 +46,128 @@ const renderProductItem = itemData => {
 	}
 
 	return (
-		<View style={styles.items}>
-			<Text>{producto} {itemData.item.sabor}{' '}({itemData.item.tipo})</Text>
-			<Text>${itemData.item.precio}</Text>
+		<View style={{
+			flex: 1,
+			flexDirection: 'row',
+			justifyContent: 'space-between',
+			overflow: 'hidden'
+		}}>
+			<TouchableComp
+				activeOpacity={0.6}
+				onPress={() => {
+					setSeleccion(itemData.item.id);
+				}}
+			>
+				<View style={styles.items}>
+					<Text>{producto} {itemData.item.sabor}{' '}({itemData.item.tipo})</Text>
+					<Text>${itemData.item.precio}</Text>
+				</View>
+			</TouchableComp>
 		</View>
 	);
 };
 
 const GenerarVentaScreen = props => {
 	const [busqueda, setBusqueda] = useState('');
+	const [seleccion, setSeleccion] = useState('');
+	const [amount, setAmount] = useState('');
+	const [cart, setCart] = useState([]);
 
 	const productosMostrados = busqueda == '' ? [...PALETAS, ...AGUAS]
 		: [...PALETAS.filter(pale => pale.sabor.includes(busqueda)),
 		...AGUAS.filter(pale => pale.sabor.includes(busqueda))];
+
+
+	const amountHandler = inputText => {
+		setAmount(inputText.replace(/[^0-9]/g, ''));
+	};
+	const resetAmountHandler = () => {
+		setAmount('');
+		setSeleccion('');
+	};
+	const confirmAmountHandler = useCallback(() => {
+		const chosenAmount = parseInt(amount);
+		if (isNaN(chosenAmount) || chosenAmount <= 0 || chosenAmount > 99) {
+			Alert.alert(
+				'Numero invalido!!',
+				'Debe seleccionar una cantidad entre 0 y 99',
+				[{ text: 'Ok', style: 'destructive', onPress: resetAmountHandler }]
+			);
+			return;
+		}
+		setCart(pastCart => [...pastCart, { id: seleccion, cantidad: amount }]);
+		resetAmountHandler();
+		Keyboard.dismiss();
+	});
+
+	useEffect(() => {
+		console.log(cart);
+	}, [cart])
+
+	const vistaAmount = () => {
+		let producto =
+			[...PALETAS.filter(pale => pale.id.includes(seleccion)),
+			...AGUAS.filter(pale => pale.id.includes(seleccion))]
+		producto = producto[0];
+		let nombre;
+		switch (producto.id.charAt(0)) {
+			case 'p':
+				nombre = 'Paleta de ';
+				break;
+			case 'a':
+				nombre = 'Agua de ';
+				break;
+			case 'n':
+				nombre = 'Nieve de ';
+				break;
+			default:
+				nombre = 'E404 ';
+				break;
+		}
+
+		return (
+			<View style={styles.contador}>
+				<Text>{nombre}{producto.sabor}{' '}({producto.tipo}){' '}${producto.precio}</Text>
+				<TextInput
+					style={styles.input}
+					blurOnSubmit //ANDROID
+					autoCorrect={false}
+					keyboardType="number-pad"//doesnt allow decimal IOS 
+					maxLength={2}
+					placeholder='Cantidad'
+					placeholderTextColor={Colors.scDark}
+					onChangeText={amountHandler}
+					value={amount}
+				/>
+				<View style={styles.buttonContainer}>
+					<View style={{ width: 90 }}>
+						<Button
+							title="Cancelar"
+							onPress={resetAmountHandler}
+							color={Colors.scDark}
+						/>
+					</View>
+					<View style={{ width: 80 }}>
+						<Button
+							title="Aceptar"
+							onPress={confirmAmountHandler}
+							color={Colors.scDark}
+						/>
+					</View>
+				</View>
+			</View>
+		);
+	};
+
+	//console.log(seleccion);
+	let listaVisible = (seleccion == '' ? (
+		<FlatList
+			data={productosMostrados}
+			keyExtractor={(item, index) => item.id}
+			renderItem={renderProductItem.bind(this, setSeleccion)}
+			style={{ width: '100%', flexGrow: 1 }}
+		/>
+	) : vistaAmount());
 
 	return (
 		<View style={styles.screen}>
@@ -73,12 +192,7 @@ const GenerarVentaScreen = props => {
 				<Text>Precio</Text>
 			</View>
 			<View style={styles.listContainer}>
-				<FlatList
-					data={productosMostrados}
-					keyExtractor={(item, index) => item.id}
-					renderItem={renderProductItem}
-					style={{ width: '100%', flexGrow: 1 }}
-				/>
+				{listaVisible}
 			</View>
 		</View>
 	);
@@ -150,7 +264,8 @@ const styles = StyleSheet.create({
 	},
 	listContainer: {
 		flex: 1,
-		width: '95%'
+		width: '95%',
+		alignItems: 'center'
 	},
 	items: {
 		flexDirection: 'row',
@@ -162,6 +277,20 @@ const styles = StyleSheet.create({
 		backgroundColor: 'white',
 		justifyContent: 'space-between',
 		width: '95%'
+	},
+	buttonContainer: {
+		flexDirection: 'row',
+		width: '100%',
+		justifyContent: 'space-between',
+		paddingHorizontal: 15,
+		paddingVertical: 10
+	},
+	contador: {
+		width: '80%',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: Colors.secondaryColor,
+		borderRadius: 10,
 	}
 });
 
