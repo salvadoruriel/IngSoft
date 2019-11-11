@@ -45,6 +45,7 @@ const LoginScreen = props => {
 							onChangeText={setUserInput}
 							value={userInput}
 							placeholder='Usuario'
+							placeholderTextColor={Colors.scDark}
 						/>
 						<TextInput
 							style={styles.input}
@@ -52,6 +53,7 @@ const LoginScreen = props => {
 							onChangeText={setPassInput}
 							value={passInput}
 							placeholder='Contraseña'
+							placeholderTextColor={Colors.scDark}
 							secureTextEntry={true}
 						/>
 						<BotonDefault
@@ -98,7 +100,8 @@ const styles = StyleSheet.create({
 		height: 30,
 		width: '80%',
 		textAlign: 'center',
-		borderColor: Colors.secondaryColor,
+		borderColor: Colors.scDark,
+		backgroundColor: Colors.secondaryColor,
 		borderWidth: 1,
 		color: 'black',
 		marginVertical: 15

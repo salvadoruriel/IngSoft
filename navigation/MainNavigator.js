@@ -61,7 +61,7 @@ const MainNavigator = createDrawerNavigator({
 		}
 	},
 }, {
-	//initialRouteName: 'GenerarVenta', //changes default screen
+	initialRouteName: 'GenerarVenta', //changes default screen
 	contentOptions: {
 		activeTintColor: Colors.primaryColor
 	}
