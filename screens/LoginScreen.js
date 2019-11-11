@@ -6,13 +6,13 @@ import {
 	Dimensions,
 	StyleSheet,
 	TextInput,
+	ScrollView,
 	Alert,
 	KeyboardAvoidingView
 } from 'react-native';
 
 import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
-import { ScrollView } from 'react-native-gesture-handler';
 
 const LoginScreen = props => {
 	const [userInput, setUserInput] = useState('');

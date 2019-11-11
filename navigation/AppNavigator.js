@@ -2,7 +2,6 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import LoginScreen from '../screens/LoginScreen';
 
@@ -11,32 +10,35 @@ import MainNavigator from './MainNavigator';
 import Colors from '../constants/Colors';
 
 const defaultStackNavOptions = {
-	headerVisible: false,
-	headerStyle: {
-		backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
+	header: null, //for some reason, this default works
+	headerStyle: { //instead of working individually
+		display: 'none' //wtf
 	},
-	headerTitleStyle: {
-		//fontFamily: 'any'
-	},
-	headerBackTitleStyle: { //modify system default font on headers IOS
-		//fontFamily: 'any'
-	},
-	headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
-	headerTitle: 'ERROR 404: Missing screen (or title)'
 };
 
 const AppNavigator = createStackNavigator({
 	Login: {
 		screen: LoginScreen,
 		navigationOptions: {
+			header: null,
+			headerStyle: {
+				display: 'none'
+			},
 			headerTitle: 'Admiss', //instead of placing in .js
 		}
 	},
-	Ingreso: MainNavigator
+	Ingreso: { 
+		screen: MainNavigator ,
+		/* doesnt work, clearly this is the work of an enemy stand
+		header: null,
+		headerStyle: {
+			display: 'none'
+		},
+		headerTitle: 'hel' */
+	}
 }, {
-	headerMode: 'none',
-	//initialRouteName: 'Ingreso', //changes default screen
-	//defaultNavigationOptions: defaultStackNavOptions
+	initialRouteName: 'Ingreso', //changes default screen
+	defaultNavigationOptions: defaultStackNavOptions
 });
 
 //stacknavigator works differently and needs an app wrapper

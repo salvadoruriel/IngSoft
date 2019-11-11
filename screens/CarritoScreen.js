@@ -8,11 +8,6 @@ import {
 	StyleSheet,
 	TextInput
 } from 'react-native';
-import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
-import Colors from '../constants/Colors';
-import BotonDefault from '../components/BotonDefault';
-import MyHeaderButton from '../components/MyHeaderButton';
 
 const GenerarVentaScreen = props => {
 	return (
@@ -25,45 +20,16 @@ const GenerarVentaScreen = props => {
 					resizeMode="center"
 				/>
 			</View>
-			<Text style={{ fontSize: 28 }}>Generar Venta</Text>
+			<Text style={{ fontSize: 20 }}>Generar Venta</Text>
 		</View>
 	);
 }
 
-
-GenerarVentaScreen.navigationOptions = navData => {
-
-	return {
-		headerTitle: 'Generar Venta',
-		headerLeft: (
-			<HeaderButtons HeaderButtonComponent={MyHeaderButton}>
-				<Item
-					title='Menu'
-					iconName='ios-menu'
-					onPress={() => {
-						navData.navigation.toggleDrawer();
-					}}
-				/>
-			</HeaderButtons>
-		),
-		headerRight: (
-			<HeaderButtons HeaderButtonComponent={MyHeaderButton}>
-				<Item
-					title='Cart'
-					iconName='md-cart'
-					onPress={() => {
-						navData.navigation.navigate('s2Carro');
-					}}
-				/>
-			</HeaderButtons>
-		)
-	};
-};
-
 const styles = StyleSheet.create({
 	screen: {
 		flex: 1,
-		justifyContent: 'flex-start',
+		//flexDirection: 'column',
+		justifyContent: 'center',
 		alignItems: 'center',
 		paddingVertical: 10
 	},

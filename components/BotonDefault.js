@@ -22,7 +22,7 @@ const BotonDefault = props => {
 				activeOpacity={0.6}
 				onPress={props.onPress}
 			>
-				<View style={styles.button}>
+				<View style={{...styles.button, ...props.style }}>
 					<Text style={styles.buttonText}>{props.children}</Text>
 				</View>
 			</ButtonComponent>
@@ -33,17 +33,19 @@ const BotonDefault = props => {
 const styles = StyleSheet.create({
 	buttonContainer: {
 		borderRadius: 10,
-		overflow: 'hidden' //any child component that goes out will be clippde
+		overflow: 'hidden',
+		marginVertical: 10
 	},
 	button: {
-		backgroundColor: Colors.primaryColor,
+		backgroundColor: Colors.pcLight,
 		paddingVertical: 12,
-		paddingHorizontal: 30,
-		borderRadius: 15
+		paddingHorizontal: 25,
+		borderRadius: 10
 	},
 	buttonText: {
 		color: 'black',
-		fontSize: 18
+		fontSize: 18,
+		textAlign: 'center'
 	}
 
 });
