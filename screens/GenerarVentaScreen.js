@@ -100,8 +100,13 @@ const GenerarVentaScreen = props => {
 		Keyboard.dismiss();
 	});
 
+	//const { navigation } = props;
 	useEffect(() => {
 		console.log(cart);
+		if (cart !== 'undefined' && cart.length > 0){
+			props.navigation.setParams({ cartItems: cart });
+			//console.log(props.navigation.getParam('cartItems'));
+		}
 	}, [cart])
 
 	const vistaAmount = () => {
@@ -219,7 +224,12 @@ GenerarVentaScreen.navigationOptions = navData => {
 					title='Cart'
 					iconName='md-cart'
 					onPress={() => {
-						navData.navigation.navigate('s2Carro');
+						navData.navigation.navigate({
+							routeName: 's2Carro',
+							params: {
+								cartItems: navData.navigation.getParam('cartItems')
+							}
+						});
 					}}
 				/>
 			</HeaderButtons>

@@ -29,7 +29,7 @@ const VentasNavigator = createStackNavigator({
 		screen: CarritoScreen
 	}
 }, {
-	//initialRouteName: 'CarritoScreen', //changes default screen
+	//initialRouteName: 's2Carro', //changes default screen
 	defaultNavigationOptions: defaultStackNavOptions
 });
 
