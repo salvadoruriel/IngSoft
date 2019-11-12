@@ -4,7 +4,8 @@ import {
 	View,
 	Dimensions,
 	StyleSheet,
-	FlatList
+	FlatList,
+	Image
 } from 'react-native';
 
 import { PALETAS, AGUAS } from '../data/productos';
@@ -13,27 +14,15 @@ import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
 
 const renderProductItem = (itemData) => {
-	console.log('-render:');
+	console.log('N-render:');
 	console.log(itemData);
 	let actualItem =
 		[...PALETAS.filter(pale => pale.id.includes(itemData.item.id)),
 		...AGUAS.filter(pale => pale.id.includes(itemData.item.id))]
 	actualItem = actualItem[0];
-	let producto;
-	switch (itemData.item.id.charAt(0)) {
-		case 'p':
-			producto = 'Paleta de ';
-			break;
-		case 'a':
-			producto = 'Agua de ';
-			break;
-		case 'n':
-			producto = 'Nieve de ';
-			break;
-		default:
-			producto = 'E404 ';
-			break;
-	}
+	
+	let total = parseInt(itemData.item.cantidad)
+		* parseInt(actualItem.precio);
 
 	return (
 		<View style={{
@@ -43,21 +32,22 @@ const renderProductItem = (itemData) => {
 			overflow: 'hidden'
 		}}>
 			<View style={styles.items}>
-				<Text>{producto} {actualItem.sabor}{' '}({actualItem.tipo})</Text>
 				<Text>{itemData.item.cantidad}</Text>
+				<Text>{actualItem.id}</Text>
 				<Text>${actualItem.precio}</Text>
+				<Text>${total}</Text>
 			</View>
 		</View>
 	);
 };
 
-const CarritoScreen = props => {
+const NotaScreen = props => {
 
 	let allItems = props.navigation.getParam('cartItems');
 
 	const totalValue = useCallback(() => {
 		let total = 0;
-		console.log('--total: ');
+		console.log('N--total: ');
 
 		for (const itemData of allItems) {
 			console.log(itemData);
@@ -76,15 +66,31 @@ const CarritoScreen = props => {
 		return total;
 	});
 
-	console.log('carrito: ');
+	console.log('Nota: ');
 	console.log(allItems);
 	return (
 		<View style={styles.screen}>
-			<Text style={{ fontSize: 28 }}>Carrito</Text>
+			<View style={styles.headerContainer}>
+				<View style={styles.imageContainer}>
+					<Image
+						source={require('../assets/logo.png')}
+						fadeDuration={600}
+						style={styles.image}
+						resizeMode="center"
+					/>
+				</View>
+				<Text style={{ fontSize: 18 }}>
+					La Michoacana {'\n'}
+					Calle Benito #350{'\n'}
+					RFC:80085JEJE{'\n'}
+					"Fria excelencia"
+				</Text>
+			</View>
 			<View style={styles.items}>
-				<Text>Producto</Text>
 				<Text>Cantidad</Text>
+				<Text>ID</Text>
 				<Text>Precio</Text>
+				<Text>Total</Text>
 			</View>
 			<View style={styles.listContainer}>
 				<FlatList
@@ -100,21 +106,15 @@ const CarritoScreen = props => {
 			</View>
 			<View style={styles.buttonContainer}>
 				<BotonDefault
-					onPress={() => props.navigation.popToTop()}
-				>
-					<Text>Cancelar</Text>
-				</BotonDefault>
-				<BotonDefault
+					style={{
+						backgroundColor: 'blue',
+						paddingHorizontal: 45
+					}}
 					onPress={() => {
-						props.navigation.navigate({
-							routeName: 's3Transaccion',
-							params: {
-								cartItems: allItems
-							}
-						});
+						props.navigation.popToTop()
 					}}
 				>
-					<Text>Confirmar</Text>
+					<Text>Imprimir</Text>
 				</BotonDefault>
 			</View>
 		</View>
@@ -128,6 +128,27 @@ const styles = StyleSheet.create({
 		justifyContent: 'flex-start',
 		alignItems: 'center',
 		paddingVertical: 10
+	},
+	headerContainer: {
+		flexDirection: 'row',
+		justifyContent: 'space-around'
+	},
+	imageContainer: {
+		//width: '80%',
+		width: Dimensions.get('window').width * 0.3,
+		height: Dimensions.get('window').width * 0.3,
+		borderRadius: Dimensions.get('window').width * 0.3 / 2,
+		//height: 300, //on Android bordRadius is calculated as
+		//borderRadius: 200, //an ellipse, thus needing tools
+		borderWidth: 3, //to correctly pinpoint a circle
+		borderColor: 'white', //across different devices
+		overflow: 'hidden',
+		marginBottom: 30,
+		alignItems: 'center'
+	},
+	image: {
+		width: '100%', //images from the web forcefully require
+		height: '100%', //a width and height value
 	},
 	items: {
 		flexDirection: 'row',
@@ -149,10 +170,10 @@ const styles = StyleSheet.create({
 	buttonContainer: {
 		flexDirection: 'row',
 		width: '100%',
-		justifyContent: 'space-between',
+		justifyContent: 'center',
 		paddingHorizontal: 15,
 		paddingVertical: 10
 	},
 });
 
-export default CarritoScreen;
+export default NotaScreen;

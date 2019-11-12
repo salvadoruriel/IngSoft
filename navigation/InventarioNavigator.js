@@ -2,11 +2,8 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import GenerarVentaScreen from '../screens/GenerarVentaScreen';
-import CarritoScreen from '../screens/CarritoScreen';
-import TransaccionScreen from '../screens/TransaccionScreen';
-import NotaScreen from '../screens/NotaScreen';
-
+import InventarioScreen from '../screens/InventarioScreen';
+import ShowInventarioScreen from '../screens/ShowInventarioScreen';
 import Colors from '../constants/Colors';
 
 const defaultStackNavOptions = {
@@ -23,23 +20,26 @@ const defaultStackNavOptions = {
 	headerTitle: 'ERROR 404: Missing screen (or title)'
 };
 
-const VentasNavigator = createStackNavigator({
-	s1Generar: {
-		screen: GenerarVentaScreen,
+const InventarioNavigator = createStackNavigator({
+	s1MenuInventario: {
+		screen: InventarioScreen
 	},
-	s2Carro: {
-		screen: CarritoScreen
-	},
-	s3Transaccion: {
+	s2VerInvent: {
+		screen: ShowInventarioScreen
+	},/*
+	s3Alta: {
 		screen: TransaccionScreen
 	},
-	s4Nota: {
+	s4Modificar: {
 		screen: NotaScreen
-	}
+	},
+	s5Baja: {
+		screen: NotaScreen
+	} */
 }, {
 	//initialRouteName: 's2Carro', //changes default screen
 	defaultNavigationOptions: defaultStackNavOptions
 });
 
 //stacknavigator works differently and needs an app wrapper
-export default VentasNavigator;
+export default InventarioNavigator;

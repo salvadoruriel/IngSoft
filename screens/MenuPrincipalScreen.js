@@ -34,7 +34,7 @@ const MenuPrincipalScreen = props => {
 					</BotonDefault>
 					<View style={styles.botonContainer}>
 						<BotonDefault
-							onPress={() => props.navigation.push()}
+							onPress={() => props.navigation.navigate('InventarioMenu')}
 							style={styles.botonNormal}
 						>
 							<Text>Inventario</Text>

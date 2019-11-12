@@ -13,7 +13,7 @@ import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
 
 const renderProductItem = (itemData) => {
-	console.log('-render:');
+	console.log('T-render:');
 	console.log(itemData);
 	let actualItem =
 		[...PALETAS.filter(pale => pale.id.includes(itemData.item.id)),
@@ -51,13 +51,13 @@ const renderProductItem = (itemData) => {
 	);
 };
 
-const CarritoScreen = props => {
+const TransaccionScreen = props => {
 
 	let allItems = props.navigation.getParam('cartItems');
 
 	const totalValue = useCallback(() => {
 		let total = 0;
-		console.log('--total: ');
+		console.log('T--total: ');
 
 		for (const itemData of allItems) {
 			console.log(itemData);
@@ -76,11 +76,11 @@ const CarritoScreen = props => {
 		return total;
 	});
 
-	console.log('carrito: ');
+	console.log('transaccion: ');
 	console.log(allItems);
 	return (
 		<View style={styles.screen}>
-			<Text style={{ fontSize: 28 }}>Carrito</Text>
+			<Text style={{ fontSize: 28 }}>Transacción</Text>
 			<View style={styles.items}>
 				<Text>Producto</Text>
 				<Text>Cantidad</Text>
@@ -107,14 +107,14 @@ const CarritoScreen = props => {
 				<BotonDefault
 					onPress={() => {
 						props.navigation.navigate({
-							routeName: 's3Transaccion',
+							routeName: 's4Nota',
 							params: {
 								cartItems: allItems
 							}
 						});
 					}}
 				>
-					<Text>Confirmar</Text>
+					<Text>Generar Nota</Text>
 				</BotonDefault>
 			</View>
 		</View>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		padding: 10,
 		marginVertical: 1,
-		backgroundColor: 'white',
+		backgroundColor: Colors.primaryColor,
 		justifyContent: 'space-between',
 		width: '95%'
 	},
@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		width: '95%',
 		height: Dimensions.get('window').height * 0.6,
+		backgroundColor: Colors.pcDark,
 		alignItems: 'center'
 	},
 	buttonContainer: {
@@ -155,4 +156,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default CarritoScreen;
+export default TransaccionScreen;
