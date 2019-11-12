@@ -15,6 +15,7 @@ import { PALETAS, AGUAS } from '../data/productos';
 
 import Colors from '../constants/Colors';
 import MyHeaderButton from '../components/MyHeaderButton';
+import BotonDefault from '../components/BotonDefault';
 
 const renderProductItem = (itemData) => {
 	//console.log(itemData);
@@ -50,7 +51,7 @@ const renderProductItem = (itemData) => {
 	);
 };
 
-const ShowInventarioScreen = props => {
+const BajaScreen = props => {
 	const [busqueda, setBusqueda] = useState('');
 
 	const productosMostrados = busqueda == '' ? [...PALETAS, ...AGUAS]
@@ -74,7 +75,7 @@ const ShowInventarioScreen = props => {
 					</Text>
 				</View>
 			</View>
-			<Text style={{ fontSize: 28 }}>Inventario</Text>
+			<Text style={{ fontSize: 28 }}>Baja de producto</Text>
 			<TextInput
 				style={styles.input}
 				onChangeText={setBusqueda}
@@ -95,12 +96,18 @@ const ShowInventarioScreen = props => {
 					style={{ width: '100%', flexGrow: 1 }}
 				/>
 			</View>
+			<BotonDefault
+				onPress={() => Alert.alert('No se han podido hacer los cambios')}
+				style={styles.botonNormal}
+			>
+				<Text>Dar de baja</Text>
+			</BotonDefault>
 		</View>
 	);
 }
 
 
-ShowInventarioScreen.navigationOptions = navData => {
+BajaScreen.navigationOptions = navData => {
 	return {
 		headerTitle: 'Generar Venta',
 		headerLeft: (
@@ -172,13 +179,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		width: '95%'
 	},
-	buttonContainer: {
-		flexDirection: 'row',
-		width: '100%',
-		justifyContent: 'space-between',
-		paddingHorizontal: 15,
-		paddingVertical: 10
+	botonNormal: {
+		paddingVertical: 15,
+		paddingHorizontal: 55
 	}
 });
 
-export default ShowInventarioScreen;
+export default BajaScreen;

@@ -2,11 +2,11 @@ import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import InventarioScreen from '../screens/InventarioScreen';
-import ShowInventarioScreen from '../screens/ShowInventarioScreen';
-import AltaScreen from '../screens/AltaScreen';
-import ModificarScreen from '../screens/ModificarScreen';
-import BajaScreen from '../screens/BajaScreen';
+import RegistroScreen from '../screens/RegistroScreen';
+import VerRegiScreen from '../screens/VerRegiScreen'; 
+import AltaRegiScreen from '../screens/AltaRegiScreen';
+import VentasScreen from '../screens/VentasScreen';
+import RespaldarScreen from '../screens/RespaldarScreen';
 
 import Colors from '../constants/Colors';
 
@@ -24,26 +24,26 @@ const defaultStackNavOptions = {
 	headerTitle: 'ERROR 404: Missing screen (or title)'
 };
 
-const InventarioNavigator = createStackNavigator({
-	s1MenuInventario: {
-		screen: InventarioScreen
+const RegistroNavigator = createStackNavigator({
+	s1MenuRegistro: {
+		screen: RegistroScreen
 	},
-	s2VerInvent: {
-		screen: ShowInventarioScreen
+	s2VerRegistrados: {
+		screen: VerRegiScreen
 	},
-	s3Alta: {
-		screen: AltaScreen
+	s3AltaRegistrados: {
+		screen: AltaRegiScreen
 	},
-	s4Modificar: {
-		screen: ModificarScreen
+	s4Ventas: {
+		screen: VentasScreen
 	},
-	s5Baja: {
-		screen: BajaScreen
-	} 
+	s5Respaldar: {
+		screen: RespaldarScreen
+	}
 }, {
-	//initialRouteName: 's2Carro', //changes default screen
+	//initialRouteName: 's5Respaldar', //changes default screen
 	defaultNavigationOptions: defaultStackNavOptions
 });
 
 //stacknavigator works differently and needs an app wrapper
-export default InventarioNavigator;
+export default RegistroNavigator;

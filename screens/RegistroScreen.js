@@ -11,7 +11,7 @@ import {
 import Colors from '../constants/Colors';
 import BotonDefault from '../components/BotonDefault';
 
-const InventarioScreen = props => {
+const RegistroScreen = props => {
 	return (
 		<ScrollView>
 			<View style={styles.screen}>
@@ -33,28 +33,28 @@ const InventarioScreen = props => {
 				<View style={styles.botonContainer}>
 					<View style={styles.botonContainer}>
 						<BotonDefault
-							onPress={() => props.navigation.navigate('s2VerInvent')}
+							onPress={() => props.navigation.navigate('s2VerRegistrados')}
 							style={styles.botonNormal}
 						>
-							<Text>Mostrar Inventario</Text>
+							<Text>Ver empleados</Text>
 						</BotonDefault>
 						<BotonDefault
-							onPress={() => props.navigation.navigate('s3Alta')}
+							onPress={() => props.navigation.navigate('s3AltaRegistrados')}
 							style={styles.botonNormal}
 						>
-							<Text>Alta</Text>
+							<Text>Dar de alta empleado</Text>
 						</BotonDefault>
 						<BotonDefault
-							onPress={() => props.navigation.navigate('s5Baja')}
+							onPress={() => props.navigation.navigate('s4Ventas')}
 							style={styles.botonNormal}
 						>
-							<Text>Baja</Text>
+							<Text>Ventas</Text>
 						</BotonDefault>
 						<BotonDefault
-							onPress={() => props.navigation.navigate('s4Modificar')}
+							onPress={() => props.navigation.navigate('s5Respaldar')}
 							style={styles.botonNormal}
 						>
-							<Text>Modificar</Text>
+							<Text>Respaldar</Text>
 						</BotonDefault>
 					</View>
 				</View>
@@ -105,4 +105,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default InventarioScreen;
+export default RegistroScreen;

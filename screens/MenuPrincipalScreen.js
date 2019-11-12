@@ -40,13 +40,13 @@ const MenuPrincipalScreen = props => {
 							<Text>Inventario</Text>
 						</BotonDefault>
 						<BotonDefault
-							onPress={() => props.navigation.push()}
+							onPress={() => props.navigation.navigate('Insumos')}
 							style={styles.botonNormal}
 						>
 							<Text>Insumos</Text>
 						</BotonDefault>
 						<BotonDefault
-							onPress={() => props.navigation.push()}
+							onPress={() => props.navigation.navigate('Registro')}
 							style={styles.botonNormal}
 						>
 							<Text>Registro</Text>

@@ -11,28 +11,14 @@ import {
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { PALETAS, AGUAS } from '../data/productos';
+import { EMPLEADOS } from '../data/productos';
 
 import Colors from '../constants/Colors';
-import MyHeaderButton from '../components/MyHeaderButton';
+import MyHeaderButton from '../components/MyHeaderButton'
+import BotonDefault from '../components/BotonDefault';;
 
 const renderProductItem = (itemData) => {
 	//console.log(itemData);
-	let producto;
-	switch (itemData.item.id.charAt(0)) {
-		case 'p':
-			producto = 'Paleta de ';
-			break;
-		case 'a':
-			producto = 'Agua de ';
-			break;
-		case 'n':
-			producto = 'Nieve de ';
-			break;
-		default:
-			producto = 'E404 ';
-			break;
-	}
 
 	return (
 		<View style={{
@@ -42,9 +28,9 @@ const renderProductItem = (itemData) => {
 			overflow: 'hidden'
 		}}>
 			<View style={styles.items}>
-				<Text>{itemData.item.id}</Text>
-				<Text>{producto} {itemData.item.sabor}</Text>
-				<Text>{itemData.item.tipo}</Text>
+				<Text>{itemData.item.nombre}</Text>
+				<Text>{itemData.item.edad}</Text>
+				<Text>{itemData.item.cargo}</Text>
 			</View>
 		</View>
 	);
@@ -52,10 +38,10 @@ const renderProductItem = (itemData) => {
 
 const ShowInventarioScreen = props => {
 	const [busqueda, setBusqueda] = useState('');
+	//console.log(INGREDIENTES);
 
-	const productosMostrados = busqueda == '' ? [...PALETAS, ...AGUAS]
-		: [...PALETAS.filter(pale => pale.sabor.includes(busqueda)),
-		...AGUAS.filter(pale => pale.sabor.includes(busqueda))];
+	const productosMostrados = busqueda == '' ? EMPLEADOS
+		: EMPLEADOS.filter(pale => pale.nombre.includes(busqueda));
 
 	return (
 		<View style={styles.screen}>
@@ -74,18 +60,18 @@ const ShowInventarioScreen = props => {
 					</Text>
 				</View>
 			</View>
-			<Text style={{ fontSize: 28 }}>Inventario</Text>
+			<Text style={{ fontSize: 28 }}>Empleados</Text>
 			<TextInput
 				style={styles.input}
 				onChangeText={setBusqueda}
 				value={busqueda}
 				placeholder='Buscar'
-				placeholderTextColor='black'
+				placeholderTextColor={Colors.scDark}
 			/>
 			<View style={styles.items}>
-				<Text>id</Text>
 				<Text>Nombre</Text>
-				<Text>Presentacion</Text>
+				<Text>Edad</Text>
+				<Text>Cargo</Text>
 			</View>
 			<View style={styles.listContainer}>
 				<FlatList
@@ -95,6 +81,12 @@ const ShowInventarioScreen = props => {
 					style={{ width: '100%', flexGrow: 1 }}
 				/>
 			</View>
+			<BotonDefault
+				onPress={() => Alert.alert('No se han podido hacer los cambios')}
+				style={styles.botonNormal}
+			>
+				<Text>Dar de baja</Text>
+			</BotonDefault>
 		</View>
 	);
 }
@@ -126,7 +118,8 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-around'
+		justifyContent: 'space-around',
+		marginTop: 30
 	},
 	imageContainer: {
 		//width: '80%',
@@ -151,7 +144,7 @@ const styles = StyleSheet.create({
 		width: '80%',
 		textAlign: 'center',
 		borderColor: Colors.scDark,
-		backgroundColor: Colors.pcLight,
+		backgroundColor: Colors.secondaryColor,
 		borderWidth: 1,
 		color: 'black',
 		marginVertical: 15
@@ -168,16 +161,13 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		padding: 10,
 		marginVertical: 1,
-		backgroundColor: Colors.pcLight,
+		backgroundColor: Colors.secondaryColor,
 		justifyContent: 'space-between',
 		width: '95%'
 	},
-	buttonContainer: {
-		flexDirection: 'row',
-		width: '100%',
-		justifyContent: 'space-between',
-		paddingHorizontal: 15,
-		paddingVertical: 10
+	botonNormal: {
+		paddingVertical: 15,
+		paddingHorizontal: 55
 	}
 });
 

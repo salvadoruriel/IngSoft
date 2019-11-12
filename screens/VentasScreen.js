@@ -11,28 +11,13 @@ import {
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { PALETAS, AGUAS } from '../data/productos';
+import { VENTAS } from '../data/productos';
 
 import Colors from '../constants/Colors';
 import MyHeaderButton from '../components/MyHeaderButton';
 
 const renderProductItem = (itemData) => {
 	//console.log(itemData);
-	let producto;
-	switch (itemData.item.id.charAt(0)) {
-		case 'p':
-			producto = 'Paleta de ';
-			break;
-		case 'a':
-			producto = 'Agua de ';
-			break;
-		case 'n':
-			producto = 'Nieve de ';
-			break;
-		default:
-			producto = 'E404 ';
-			break;
-	}
 
 	return (
 		<View style={{
@@ -43,19 +28,19 @@ const renderProductItem = (itemData) => {
 		}}>
 			<View style={styles.items}>
 				<Text>{itemData.item.id}</Text>
-				<Text>{producto} {itemData.item.sabor}</Text>
-				<Text>{itemData.item.tipo}</Text>
+				<Text>{itemData.item.ids}</Text>
+				<Text>{itemData.item.totalVenta}</Text>
 			</View>
 		</View>
 	);
 };
 
-const ShowInventarioScreen = props => {
+const VentasScreen = props => {
 	const [busqueda, setBusqueda] = useState('');
+	//console.log(INGREDIENTES);
 
-	const productosMostrados = busqueda == '' ? [...PALETAS, ...AGUAS]
-		: [...PALETAS.filter(pale => pale.sabor.includes(busqueda)),
-		...AGUAS.filter(pale => pale.sabor.includes(busqueda))];
+	const productosMostrados = busqueda == '' ? VENTAS
+		: VENTAS.filter(pale => pale.nombre.includes(busqueda));
 
 	return (
 		<View style={styles.screen}>
@@ -74,18 +59,11 @@ const ShowInventarioScreen = props => {
 					</Text>
 				</View>
 			</View>
-			<Text style={{ fontSize: 28 }}>Inventario</Text>
-			<TextInput
-				style={styles.input}
-				onChangeText={setBusqueda}
-				value={busqueda}
-				placeholder='Buscar'
-				placeholderTextColor='black'
-			/>
+			<Text style={{ fontSize: 28 }}>Ventas</Text>
 			<View style={styles.items}>
-				<Text>id</Text>
-				<Text>Nombre</Text>
-				<Text>Presentacion</Text>
+				<Text>fecha</Text>
+				<Text>id de productos</Text>
+				<Text>Total</Text>
 			</View>
 			<View style={styles.listContainer}>
 				<FlatList
@@ -100,7 +78,7 @@ const ShowInventarioScreen = props => {
 }
 
 
-ShowInventarioScreen.navigationOptions = navData => {
+VentasScreen.navigationOptions = navData => {
 	return {
 		headerTitle: 'Generar Venta',
 		headerLeft: (
@@ -126,7 +104,8 @@ const styles = StyleSheet.create({
 	},
 	headerContainer: {
 		flexDirection: 'row',
-		justifyContent: 'space-around'
+		justifyContent: 'space-around',
+		marginTop: 30
 	},
 	imageContainer: {
 		//width: '80%',
@@ -146,20 +125,11 @@ const styles = StyleSheet.create({
 		height: '100%', //a width and height value
 		//borderRadius: 200
 	},
-	input: {
-		height: 30,
-		width: '80%',
-		textAlign: 'center',
-		borderColor: Colors.scDark,
-		backgroundColor: Colors.pcLight,
-		borderWidth: 1,
-		color: 'black',
-		marginVertical: 15
-	},
 	listContainer: {
 		flex: 1,
 		width: '95%',
-		alignItems: 'center'
+		alignItems: 'center',
+		marginTop: 20
 	},
 	items: {
 		flexDirection: 'row',
@@ -172,13 +142,10 @@ const styles = StyleSheet.create({
 		justifyContent: 'space-between',
 		width: '95%'
 	},
-	buttonContainer: {
-		flexDirection: 'row',
-		width: '100%',
-		justifyContent: 'space-between',
-		paddingHorizontal: 15,
-		paddingVertical: 10
+	botonNormal: {
+		paddingVertical: 15,
+		paddingHorizontal: 55
 	}
 });
 
-export default ShowInventarioScreen;
+export default VentasScreen;

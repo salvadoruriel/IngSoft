@@ -5,10 +5,10 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 
 import MenuPrincipalScreen from '../screens/MenuPrincipalScreen';
 import InsumosScreen from '../screens/InsumosScreen';
-import RegistroVentasScreen from '../screens/RegistroVentasScreen';
 
 import VentasNavigator from './VentasNavigator';
 import InventarioNavigator from './InventarioNavigator';
+import RegistroNavigator from './RegistroNavigator';
 
 import Colors from '../constants/Colors';
 
@@ -67,11 +67,27 @@ const MainNavigator = createDrawerNavigator({
 			headerStyle: {
 				display: 'none'
 			},
-			drawerLabel: 'Inventario',
+			drawerLabel: 'Inventario'
 		}
 	},
+	Insumos: {
+		screen: InsumosScreen,
+		navigationOptions: {
+			/* header: null,
+			headerStyle: {
+				display: 'none'
+			}, */
+			drawerLabel: 'Insumos'
+		}
+	},
+	Registro: {
+		screen: RegistroNavigator,
+		navigationOptions: {
+			drawerLabel: 'Registro'
+		}
+	}
 }, {
-	initialRouteName: 'InventarioMenu', //changes default screen
+	//initialRouteName: 'Registro', //changes default screen
 	contentOptions: {
 		activeTintColor: Colors.primaryColor
 	}

@@ -37,7 +37,7 @@ const AppNavigator = createStackNavigator({
 		headerTitle: 'hel' */
 	}
 }, {
-	initialRouteName: 'Ingreso', //changes default screen
+	//initialRouteName: 'Ingreso', //changes default screen
 	defaultNavigationOptions: defaultStackNavOptions
 });
 

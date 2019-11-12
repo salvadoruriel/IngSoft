@@ -6,56 +6,16 @@ import {
 	Dimensions,
 	StyleSheet,
 	TextInput,
-	FlatList,
 	Alert
 } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { PALETAS, AGUAS } from '../data/productos';
-
 import Colors from '../constants/Colors';
 import MyHeaderButton from '../components/MyHeaderButton';
+import BotonDefault from '../components/BotonDefault';
 
-const renderProductItem = (itemData) => {
-	//console.log(itemData);
-	let producto;
-	switch (itemData.item.id.charAt(0)) {
-		case 'p':
-			producto = 'Paleta de ';
-			break;
-		case 'a':
-			producto = 'Agua de ';
-			break;
-		case 'n':
-			producto = 'Nieve de ';
-			break;
-		default:
-			producto = 'E404 ';
-			break;
-	}
-
-	return (
-		<View style={{
-			flex: 1,
-			flexDirection: 'row',
-			justifyContent: 'space-between',
-			overflow: 'hidden'
-		}}>
-			<View style={styles.items}>
-				<Text>{itemData.item.id}</Text>
-				<Text>{producto} {itemData.item.sabor}</Text>
-				<Text>{itemData.item.tipo}</Text>
-			</View>
-		</View>
-	);
-};
-
-const ShowInventarioScreen = props => {
-	const [busqueda, setBusqueda] = useState('');
-
-	const productosMostrados = busqueda == '' ? [...PALETAS, ...AGUAS]
-		: [...PALETAS.filter(pale => pale.sabor.includes(busqueda)),
-		...AGUAS.filter(pale => pale.sabor.includes(busqueda))];
+const RespaldarScreen = props => {
+	const [dias, setDias] = useState('');
 
 	return (
 		<View style={styles.screen}>
@@ -74,33 +34,33 @@ const ShowInventarioScreen = props => {
 					</Text>
 				</View>
 			</View>
-			<Text style={{ fontSize: 28 }}>Inventario</Text>
-			<TextInput
-				style={styles.input}
-				onChangeText={setBusqueda}
-				value={busqueda}
-				placeholder='Buscar'
-				placeholderTextColor='black'
-			/>
+			<Text style={{ fontSize: 28 }}>Respaldar informacion</Text>
 			<View style={styles.items}>
-				<Text>id</Text>
-				<Text>Nombre</Text>
-				<Text>Presentacion</Text>
-			</View>
-			<View style={styles.listContainer}>
-				<FlatList
-					data={productosMostrados}
-					keyExtractor={(item, index) => item.id}
-					renderItem={renderProductItem}
-					style={{ width: '100%', flexGrow: 1 }}
+				<Text>Cada </Text>
+				<TextInput
+					style={styles.input}
+					onChangeText={setDias}
+					value={dias}
+					placeholder='7'
+					placeholderTextColor='black'
 				/>
+				<Text> dias</Text>
 			</View>
+			<BotonDefault
+				onPress={() => {
+					Alert.alert('Respaldo exitoso')
+					props.navigation.popToTop();
+				}}
+				style={styles.botonNormal}
+			>
+				<Text>Respaldar ahora</Text>
+			</BotonDefault>
 		</View>
 	);
 }
 
 
-ShowInventarioScreen.navigationOptions = navData => {
+RespaldarScreen.navigationOptions = navData => {
 	return {
 		headerTitle: 'Generar Venta',
 		headerLeft: (
@@ -148,37 +108,29 @@ const styles = StyleSheet.create({
 	},
 	input: {
 		height: 30,
-		width: '80%',
+		//width: '95%',
 		textAlign: 'center',
 		borderColor: Colors.scDark,
-		backgroundColor: Colors.pcLight,
-		borderWidth: 1,
+		//backgroundColor: Colors.pcLight,
+		borderBottomWidth: 1,
 		color: 'black',
-		marginVertical: 15
-	},
-	listContainer: {
-		flex: 1,
-		width: '95%',
-		alignItems: 'center'
+		marginVertical: 0
 	},
 	items: {
 		flexDirection: 'row',
 		borderColor: '#ccc',
-		//borderWidth: 1,
+		borderWidth: 1,
 		borderBottomWidth: 1,
 		padding: 10,
 		marginVertical: 1,
-		backgroundColor: Colors.pcLight,
-		justifyContent: 'space-between',
-		width: '95%'
+		backgroundColor: 'white',
+		justifyContent: 'space-evenly',
+		width: '85%'
 	},
-	buttonContainer: {
-		flexDirection: 'row',
-		width: '100%',
-		justifyContent: 'space-between',
-		paddingHorizontal: 15,
-		paddingVertical: 10
+	botonNormal: {
+		paddingVertical: 15,
+		paddingHorizontal: 55
 	}
 });
 
-export default ShowInventarioScreen;
+export default RespaldarScreen;
